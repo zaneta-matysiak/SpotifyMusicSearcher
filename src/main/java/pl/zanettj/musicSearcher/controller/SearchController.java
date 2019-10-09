@@ -2,6 +2,8 @@ package pl.zanettj.musicSearcher.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,8 @@ import java.util.Arrays;
 @RequestMapping("/")
 @Slf4j
 public class SearchController {
+
+    static Logger LOGGER = LoggerFactory.getLogger(SearchController.class);
 
     SearchResult searchResult;
 
@@ -40,17 +44,17 @@ public class SearchController {
         searchResult = new SearchResult();
         searchResult.setSearchTime(LocalDateTime.now().toString());
 
-        log.info("Search query: " + name + ", search type: " + type);
+        LOGGER.info("Search query: " + name + ", search type: " + type);
         switch (type){
             case "artist":
                 var spotifyArtists = SpotifySearch.searchArtists(name).getItems();
                 searchResult.setSearchArtistResult(Artist.mapArtists(spotifyArtists));
-                log.info("Search result: " +  searchResult.toString());
+                LOGGER.info("Search result: " +  searchResult.toString());
                 break;
             case "track":
                 var spotifyTracks = SpotifySearch.searchTracks(name).getItems();
                 searchResult.setSearchTrackResult(Track.mapTracks(spotifyTracks));
-                log.info("Search result: " +  searchResult.toString());
+                LOGGER.info("Search result: " +  searchResult.toString());
                 break;
         }
 
@@ -70,13 +74,12 @@ public class SearchController {
 
         try {
             searchRepository.insert(searchResult);
-            log.info("Last search saved with id: " + nextId);
+            LOGGER.info("Last search saved with id: " + nextId);
         } catch (Exception e){
-            log.error("Error: " + e.getMessage());
+            LOGGER.error("Error: " + e.getMessage());
         }
 
         return "index";
-
     }
 
 //    @PostMapping
