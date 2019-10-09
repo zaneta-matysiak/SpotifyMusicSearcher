@@ -5,40 +5,20 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <title>Spotify artists and tracks searcher</title>
-    <!-- Custom styles for this template -->
-    <link href="https://getbootstrap.com/docs/4.3/examples/sticky-footer-navbar/sticky-footer-navbar.css" rel="stylesheet"/>
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="https://getbootstrap.com/docs/4.3/examples/sticky-footer-navbar/sticky-footer-navbar.css" />
     <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/sticky-footer-navbar/"/>
-
-    <!-- do listy-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-
-    <!-- Bootstrap core CSS -->
-    <link href="https://getbootstrap.com/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
-
+    <link rel="stylesheet" href="https://getbootstrap.com/docs/4.3/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
     <link rel="stylesheet" th:href="@{/css/list-grid-view.css}" />
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://getbootstrap.com/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script></body>
-
     <script type="text/javascript" th:src="@{/js/list-grid-view.js}"></script>
-    <script th:inline="javascript">
-        var searchResult = /*[[${searchResult}]]*/ {};
+    <script th:inline="javascript">var searchResult = /*[[${searchResult}]]*/ {};
     </script>
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
 
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-    </style>
 
 </head>
 <body class="d-flex flex-column h-100">
@@ -87,16 +67,15 @@
         <th:block th:if="${logcontent}" th:text="${logcontent}"></th:block>
     </div>
 
-
     <!-- list of artist and tracks-->
     <div class="list" th:if="${searchResult}" id="searchContainer">
         <button id="saveSearch" class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="saveSearch();">Save search</button>
 
         <ol th:if="${searchResult.searchArtistResult}">
-            <li th:each="result: ${searchResult.searchArtistResult}" th:text="${result.name}"></li>
+            <li th:each="result: ${searchResult.searchArtistResult}" th:text="${result.name} + ' (' + ${result.genres} + ')' "></li>
         </ol>
         <ol th:if="${searchResult.searchTrackResult}">
-            <li th:each="result: ${searchResult.searchTrackResult}" th:text="${result.name} + ' (' + ${result.album} + ')'"></li>
+            <li th:each="result: ${searchResult.searchTrackResult}" th:text="${result.name} + ' (' + ${result.artists} + ')'"></li>
         </ol>
     </div>
 
@@ -108,7 +87,7 @@
                 <button th:onclick="'deleteSearch(' + ${search.id} + ')'">delete</button>
                 <div th:text="${search.searchQuery}"></div>
                 <div th:text="${search.id}"></div>
-                <div th:each="track: ${search.searchTrackResult}" th:text="${track.name} + ': ' + ${track.artists}"></div>
+                <div th:each="track: ${search.searchTrackResult}" th:text="${track.name} + ' (' + ${track.artists} + ')' " ></div>
                 <div th:each="artist: ${search.searchArtistResult}"th:if="${search.searchArtistResult}" th:text="${artist.name}"></div>
             </li>
         </ol>
@@ -125,6 +104,7 @@
             <th scope="col">Favourite</th>
         </tr>
         </thead>
+
         <tbody>
         <tr>
             <th scope="row">1</th>
