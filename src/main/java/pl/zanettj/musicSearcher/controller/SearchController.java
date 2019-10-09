@@ -25,8 +25,6 @@ public class SearchController {
 
     static Logger LOGGER = LoggerFactory.getLogger(SearchController.class);
 
-    SearchResult searchResult;
-
     @Autowired
     SearchRepository searchRepository;
     @Autowired
@@ -41,7 +39,7 @@ public class SearchController {
     public String searchByName(@RequestParam(value = "name") String name,
                                @RequestParam(value = "type", defaultValue = "artist") String type,
                                Model model){
-        searchResult = new SearchResult();
+        var searchResult = new SearchResult();
         searchResult.setSearchTime(LocalDateTime.now().toString());
 
         LOGGER.info("Search query: " + name + ", search type: " + type);
@@ -66,8 +64,8 @@ public class SearchController {
         return "index";
     }
 
-    @RequestMapping("/search-saved")
-    public String testInsert() {
+    @PostMapping("/search-saved")
+    public String saveFavouriteSearch(@RequestBody SearchResult searchResult) {
 
         var nextId = searchRepositoryCustom.getMaxEmptyId() +1;
         searchResult.setId(nextId);

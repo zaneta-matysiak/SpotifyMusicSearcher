@@ -1,9 +1,10 @@
 function saveSearch() {
-    console.log("save search");
     $.ajax({
-        type: "GET",
+        type: "POST",
         url: "/search-saved",
-        success: onSuccess
+        success: onSuccess,
+        data: JSON.stringify(searchResult),
+        contentType: "application/json"
     });
 }
 
