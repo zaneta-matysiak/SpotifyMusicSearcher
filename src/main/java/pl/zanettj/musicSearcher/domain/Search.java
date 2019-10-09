@@ -1,4 +1,4 @@
-package pl.zanettj.musicSearcher.model;
+package pl.zanettj.musicSearcher.domain;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

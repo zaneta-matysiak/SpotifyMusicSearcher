@@ -1,4 +1,4 @@
-package pl.zanettj.musicSearcher.controller;
+package pl.zanettj.musicSearcher.web;
 
 import lombok.var;
 import org.slf4j.*;
@@ -17,9 +17,6 @@ public class SavedSearchController {
 
     @Autowired
     SearchRepository searchRepository;
-//    @Autowired
-//    SearchRepositoryCustom searchRepositoryCustom;
-
 
     @GetMapping("/getAll-saved-searches")
     public String getAllSavedSearch(Model model){
@@ -31,11 +28,18 @@ public class SavedSearchController {
         return "index";
     }
 
-    @PostMapping("/delete")
     @ResponseBody
+    @PostMapping("/delete")
     public Long deleteSavedSearch(@RequestBody Long id){
         searchRepository.deleteById(id);
         return id;
+    }
+
+    @ResponseBody
+    @PostMapping("/deleteAll")
+    public String deleteAllSavedSearch(){
+        searchRepository.deleteAll();
+        return "All searches deleted.";
     }
 
 }

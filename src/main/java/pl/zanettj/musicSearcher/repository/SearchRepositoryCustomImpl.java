@@ -5,7 +5,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
-import pl.zanettj.musicSearcher.model.Search;
+import pl.zanettj.musicSearcher.domain.Search;
 
 @Repository
 public class SearchRepositoryCustomImpl implements SearchRepositoryCustom {
@@ -15,10 +15,8 @@ public class SearchRepositoryCustomImpl implements SearchRepositoryCustom {
 
     @Override
     public long getMaxEmptyId() {
-        Query query = new Query();
-        query.with(new Sort(Sort.Direction.DESC, "id"));
-        query.limit(1);
-        Search maxObject = mongoTemplate.findOne(query, Search.class);
+        Query query = new Query().with(new Sort(Sort.Direction.DESC, "id"));
+        Search maxObject = mongoTemplate.findOne(query.limit(1), Search.class);
         if (maxObject == null) {
             return 0L;
         }

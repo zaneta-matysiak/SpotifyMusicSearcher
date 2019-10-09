@@ -1,4 +1,4 @@
-package pl.zanettj.musicSearcher.spotify;
+package pl.zanettj.musicSearcher.service;
 
 import com.wrapper.spotify.SpotifyApi;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
@@ -7,16 +7,16 @@ import com.wrapper.spotify.model_objects.specification.Artist;
 import com.wrapper.spotify.model_objects.specification.Paging;
 import com.wrapper.spotify.model_objects.specification.Track;
 import com.wrapper.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-@Slf4j
-public class SpotifySearch {
+@Service
+public class SearchService {
 
-    static Logger LOGGER = LoggerFactory.getLogger(SpotifySearch.class);
+    static Logger LOGGER = LoggerFactory.getLogger(SearchService.class);
 
     private static final String clientId = "612e3cbb366b4415bd11210e082520a2";
     private static final String clientSecret = "b03a26b9cd89474f8f20f01385b4bfce";
@@ -39,7 +39,6 @@ public class SpotifySearch {
         try {
             final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
             spotifyApi.setAccessToken(clientCredentials.getAccessToken());
-            //log.info("Expires in: " + clientCredentials.getExpiresIn());
         } catch (IOException | SpotifyWebApiException e) {
             LOGGER.error("Error: " + e.getMessage());
         }
