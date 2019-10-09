@@ -4,11 +4,10 @@ import com.wrapper.spotify.model_objects.specification.Artist;
 import com.wrapper.spotify.model_objects.specification.Paging;
 import com.wrapper.spotify.model_objects.specification.Track;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.zanettj.musicSearcher.model.Search;
+import pl.zanettj.musicSearcher.model.SearchResult;
 import pl.zanettj.musicSearcher.repository.SearchRepository;
 import pl.zanettj.musicSearcher.repository.SearchRepositoryCustom;
 import pl.zanettj.musicSearcher.spotify.SpotifySearch;
@@ -18,38 +17,35 @@ import java.time.LocalDateTime;
 @Controller
 public class SearchController {
 
-    @GetMapping
-    public String search(){
-        return "index";
-    }
-
-    Paging<Artist> searchArtists;
-    Paging<Track> searchTracks;
-    String searchType;
-    String searchName;
+    SearchResult searchResult;
 
     @Autowired
     SearchRepository searchRepository;
     @Autowired
     SearchRepositoryCustom searchRepositoryCustom;
 
+    @GetMapping
+    public String search(){
+        return "index";
+    }
+
     @GetMapping(value="/search")
-    public String searchByName(@RequestParam(value = "type", defaultValue = "artist") String type,
-                               @RequestParam(value = "name") String name,
+    public String searchByName(@RequestParam(value = "name") String name,
+                               @RequestParam(value = "type", defaultValue = "artist") String type,
                                Model model){
 
         switch (type){
             case "artist":
-                searchArtists = SpotifySearch.searchArtists(name);
-                model.addAttribute("collection", searchArtists.getItems());
+                searchResult.setSearchArtistResult(SpotifySearch.searchArtists(name).getItems());
+                model.addAttribute("collection", searchResult.getSearchArtistResult());
                 break;
             case "track":
-                searchTracks = SpotifySearch.searchTracks(name);
-                model.addAttribute("collection", searchTracks.getItems());
+                searchResult.setSearchTrackResult(SpotifySearch.searchTracks(name).getItems());
+                model.addAttribute("collection", searchResult.getSearchTrackResult());
                 break;
         }
-        searchType = type;
-        searchName = name;
+        searchResult.setSearchType(type);
+        searchResult.setSearchQuery(name);
 
         return "index";
     }
@@ -57,20 +53,10 @@ public class SearchController {
     @RequestMapping("/testInsert")
     public String testInsert() {
 
-        Search search = new Search();
-        search.setId(this.searchRepositoryCustom.getMaxEmptyId() +1);
-        search.setSearchTime(LocalDateTime.now().toString());
-        search.setSearchType(searchType);
-        search.setSearchQuery(searchName);
+        searchResult.setId(this.searchRepositoryCustom.getMaxEmptyId() +1);
+        searchResult.setSearchTime(LocalDateTime.now().toString());
 
-        switch (searchType){
-            case "artist":
-                search.setSearchArtistResult(searchArtists.getItems());
-            case "track":
-                search.setSearchTrackResult(searchTracks.getItems());
-        }
-
-        searchRepository.insert(search);
+        searchRepository.insert(searchResult);
         return "index";
 
     }

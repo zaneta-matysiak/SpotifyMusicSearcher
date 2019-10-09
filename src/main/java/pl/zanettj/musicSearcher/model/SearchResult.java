@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @Document(collection = "Search_Archive")
-public class Search {
+public class SearchResult {
 
     @Id
     Long id;
