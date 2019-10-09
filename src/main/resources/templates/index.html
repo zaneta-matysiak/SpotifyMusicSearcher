@@ -84,7 +84,10 @@
     <!-- lista wyszukanych artystow i piosenek-->
     <div class="list">
         <ol>
-            <li th:each="collect: ${}" th:text="${collect.getName()}"></li>
+            <!--
+            <li th:each="collect: ${collection}" th:text="${collect.}"></li>
+            -->
+            <li th:each="result: ${searchResult.searchArtistResult}" th:text="${result.name}"></li>
         </ol>
     </div>
 

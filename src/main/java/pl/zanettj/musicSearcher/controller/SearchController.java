@@ -37,11 +37,11 @@ public class SearchController {
         switch (type){
             case "artist":
                 searchResult.setSearchArtistResult(SpotifySearch.searchArtists(name).getItems());
-                model.addAttribute("collection", searchResult.getSearchArtistResult());
+                model.addAttribute("searchResult", searchResult);
                 break;
             case "track":
                 searchResult.setSearchTrackResult(SpotifySearch.searchTracks(name).getItems());
-                model.addAttribute("collection", searchResult.getSearchTrackResult());
+                model.addAttribute("searchResult", searchResult);
                 break;
         }
         searchResult.setSearchType(type);
