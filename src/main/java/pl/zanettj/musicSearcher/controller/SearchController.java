@@ -64,8 +64,9 @@ public class SearchController {
         return "index";
     }
 
+    @ResponseBody
     @PostMapping("/search-saved")
-    public String saveFavouriteSearch(@RequestBody SearchResult searchResult) {
+    public Long saveFavouriteSearch(@RequestBody SearchResult searchResult) {
 
         var nextId = searchRepositoryCustom.getMaxEmptyId() +1;
         searchResult.setId(nextId);
@@ -77,7 +78,7 @@ public class SearchController {
             LOGGER.error("Error: " + e.getMessage());
         }
 
-        return "index";
+        return nextId;
     }
 
 //    @PostMapping

@@ -8,6 +8,7 @@ function saveSearch() {
     });
 }
 
-function onSuccess(){
-    alert("saved");
+function onSuccess(result){
+    $("#saveSearch").remove();
+    $("#searchContainer").prepend("<p class='my-2 my-sm-0'>Save succeeded! (id: " + result + ")</p>");
 }

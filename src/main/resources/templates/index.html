@@ -89,15 +89,15 @@
 
 
     <!-- lista wyszukanych artystow i piosenek-->
-    <div class="list" th:if="${searchResult}">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="saveSearch();">Save search</button>
+    <div class="list" th:if="${searchResult}" id="searchContainer">
+        <button id="saveSearch" class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="saveSearch();">Save search</button>
 
-            <ol th:if="${searchResult.searchArtistResult}">
-                <li th:each="result: ${searchResult.searchArtistResult}" th:text="${result.name}"></li>
-            </ol>
-            <ol th:if="${searchResult.searchTrackResult}">
-                <li th:each="result: ${searchResult.searchTrackResult}" th:text="${result.name} + ' (' + ${result.album} + ')'"></li>
-            </ol>
+        <ol th:if="${searchResult.searchArtistResult}">
+            <li th:each="result: ${searchResult.searchArtistResult}" th:text="${result.name}"></li>
+        </ol>
+        <ol th:if="${searchResult.searchTrackResult}">
+            <li th:each="result: ${searchResult.searchTrackResult}" th:text="${result.name} + ' (' + ${result.album} + ')'"></li>
+        </ol>
 
     </div>
 
