@@ -1,21 +1,16 @@
 package pl.zanettj.musicSearcher.model;
 
-import com.wrapper.spotify.model_objects.specification.Artist;
-import com.wrapper.spotify.model_objects.specification.Track;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Document(collection = "Search_Archive")
+@Document(collection = "Saved_Search")
 public class SearchResult {
 
     @Id

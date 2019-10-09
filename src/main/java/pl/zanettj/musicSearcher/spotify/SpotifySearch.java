@@ -7,11 +7,11 @@ import com.wrapper.spotify.model_objects.specification.Artist;
 import com.wrapper.spotify.model_objects.specification.Paging;
 import com.wrapper.spotify.model_objects.specification.Track;
 import com.wrapper.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
-import com.wrapper.spotify.requests.data.search.simplified.SearchTracksRequest;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
-
+@Slf4j
 public class SpotifySearch {
 
     private static final String clientId = "612e3cbb366b4415bd11210e082520a2";
@@ -35,19 +35,19 @@ public class SpotifySearch {
         try {
             final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
             spotifyApi.setAccessToken(clientCredentials.getAccessToken());
-            System.out.println("Expires in: " + clientCredentials.getExpiresIn());
+            //log.info("Expires in: " + clientCredentials.getExpiresIn());
         } catch (IOException | SpotifyWebApiException e) {
-            System.out.println("Error: " + e.getMessage());
+            log.error("Error: " + e.getMessage());
         }
     }
 
     public static Paging<Artist> searchArtists(String artistName) {
         try {
             Paging<Artist> artistPaging = getSpotifyApi().searchArtists(artistName).build().execute();
-            System.out.println("Total: " + artistPaging.getTotal());
+            log.info("Total results: " + artistPaging.getTotal());
             return artistPaging;
         } catch (IOException | SpotifyWebApiException e) {
-            System.out.println("Error: " + e.getMessage());
+            log.error("Error: " + e.getMessage());
             return null;
         }
     }
@@ -55,10 +55,10 @@ public class SpotifySearch {
     public static Paging<Track> searchTracks(String title) {
         try {
             Paging<Track> trackPaging = getSpotifyApi().searchTracks(title).build().execute();
-            System.out.println("Total: " + trackPaging.getTotal());
+            log.info("Total: " + trackPaging.getTotal());
             return trackPaging;
         } catch (IOException | SpotifyWebApiException e) {
-            System.out.println("Error: " + e.getMessage());
+            log.error("Error: " + e.getMessage());
             return null;
         }
     }

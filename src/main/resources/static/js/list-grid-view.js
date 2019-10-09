@@ -1,19 +1,12 @@
-// Get the elements with class="column"
-var elements = document.getElementsByClassName("column");
-
-// Declare a loop variable
-var i;
-
-// List View
-function listView() {
-    for (i = 0; i < elements.length; i++) {
-        elements[i].style.width = "100%";
-    }
+function saveSearch() {
+    console.log("save search");
+    $.ajax({
+        type: "GET",
+        url: "/search-saved",
+        success: onSuccess
+    });
 }
 
-// Grid View
-function gridView() {
-    for (i = 0; i < elements.length; i++) {
-        elements[i].style.width = "50%";
-    }
+function onSuccess(){
+    alert("saved");
 }

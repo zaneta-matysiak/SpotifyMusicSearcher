@@ -1,20 +1,24 @@
 package pl.zanettj.musicSearcher.controller;
 
-import com.wrapper.spotify.model_objects.specification.Artist;
-import com.wrapper.spotify.model_objects.specification.Paging;
-import com.wrapper.spotify.model_objects.specification.Track;
+import lombok.extern.slf4j.Slf4j;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.zanettj.musicSearcher.model.Artist;
 import pl.zanettj.musicSearcher.model.SearchResult;
+import pl.zanettj.musicSearcher.model.Track;
 import pl.zanettj.musicSearcher.repository.SearchRepository;
 import pl.zanettj.musicSearcher.repository.SearchRepositoryCustom;
 import pl.zanettj.musicSearcher.spotify.SpotifySearch;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @Controller
+@RequestMapping("/")
+@Slf4j
 public class SearchController {
 
     SearchResult searchResult;
@@ -33,30 +37,44 @@ public class SearchController {
     public String searchByName(@RequestParam(value = "name") String name,
                                @RequestParam(value = "type", defaultValue = "artist") String type,
                                Model model){
+        searchResult = new SearchResult();
+        searchResult.setSearchTime(LocalDateTime.now().toString());
 
+        log.info("Search query: " + name + ", search type: " + type);
         switch (type){
             case "artist":
-                searchResult.setSearchArtistResult(SpotifySearch.searchArtists(name).getItems());
-                model.addAttribute("searchResult", searchResult);
+                var spotifyArtists = SpotifySearch.searchArtists(name).getItems();
+                searchResult.setSearchArtistResult(Artist.mapArtists(spotifyArtists));
+                log.info("Search result: " +  searchResult.toString());
                 break;
             case "track":
-                searchResult.setSearchTrackResult(SpotifySearch.searchTracks(name).getItems());
-                model.addAttribute("searchResult", searchResult);
+                var spotifyTracks = SpotifySearch.searchTracks(name).getItems();
+                searchResult.setSearchTrackResult(Track.mapTracks(spotifyTracks));
+                log.info("Search result: " +  searchResult.toString());
                 break;
         }
+
         searchResult.setSearchType(type);
         searchResult.setSearchQuery(name);
+
+        model.addAttribute("searchResult", searchResult);
 
         return "index";
     }
 
-    @RequestMapping("/testInsert")
+    @RequestMapping("/search-saved")
     public String testInsert() {
 
-        searchResult.setId(this.searchRepositoryCustom.getMaxEmptyId() +1);
-        searchResult.setSearchTime(LocalDateTime.now().toString());
+        var nextId = searchRepositoryCustom.getMaxEmptyId() +1;
+        searchResult.setId(nextId);
 
-        searchRepository.insert(searchResult);
+        try {
+            searchRepository.insert(searchResult);
+            log.info("Last search saved with id: " + nextId);
+        } catch (Exception e){
+            log.error("Error: " + e.getMessage());
+        }
+
         return "index";
 
     }
@@ -89,5 +107,40 @@ public class SearchController {
 //        model.addAttribute("documentAuthor", document.getUserCreated().getUserName());
 //        model.addAttribute("documentDataCreated", document.getDataCreated().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 //        return "document-list";
+//    }
+//    @ResponseBody
+//    @RequestMapping("/showAllUsers")
+//    public String showAllEmployee() {
+//
+//        List<User> users = this.userRepository.findAll();
+//
+//        String html = "";
+//        for (User user : users) {
+//            html += user + "<br>";
+//        }
+//
+//        return html;
+//    }
+//
+//    @ResponseBody
+//    @RequestMapping("/showFullNameLikeTom")
+//    public String showFullNameLikeTom() {
+//
+//        List<User> employees = this.userRepository.findByName("Tom");
+//
+//        String html = "";
+//        for (User emp : employees) {
+//            html += emp + "<br>";
+//        }
+//
+//        return html;
+//    }
+//
+//    @ResponseBody
+//    @RequestMapping("/deleteAllUsers")
+//    public String deleteAllEmployee() {
+//
+//        this.userRepository.deleteAll();
+//        return "Deleted!";
 //    }
 }
