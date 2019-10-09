@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @NoArgsConstructor
 @ToString
 @Document(collection = "Saved_Search")
-public class SearchResult {
+public class Search {
 
     @Id
     Long id;

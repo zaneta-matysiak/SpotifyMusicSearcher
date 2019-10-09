@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.zanettj.musicSearcher.model.Artist;
-import pl.zanettj.musicSearcher.model.SearchResult;
+import pl.zanettj.musicSearcher.model.Search;
 import pl.zanettj.musicSearcher.model.Track;
 import pl.zanettj.musicSearcher.repository.SearchRepository;
 import pl.zanettj.musicSearcher.repository.SearchRepositoryCustom;
@@ -36,7 +36,7 @@ public class SearchController {
     public String searchByName(@RequestParam(value = "name") String name,
                                @RequestParam(value = "type", defaultValue = "artist") String type,
                                Model model){
-        var searchResult = new SearchResult();
+        var searchResult = new Search();
         searchResult.setSearchTime(LocalDateTime.now().toString());
 
         LOGGER.info("Search query: " + name + ", search type: " + type);
@@ -63,7 +63,7 @@ public class SearchController {
 
     @ResponseBody
     @PostMapping("/save")
-    public Long saveFavouriteSearch(@RequestBody SearchResult searchResult) {
+    public Long saveFavouriteSearch(@RequestBody Search searchResult) {
 
         var nextId = searchRepositoryCustom.getMaxEmptyId() +1;
         searchResult.setId(nextId);

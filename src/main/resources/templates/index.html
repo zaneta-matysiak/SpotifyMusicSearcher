@@ -73,6 +73,7 @@
                 <a class="nav-link"  href="/log">User Log</a>
             </li>
         </ul>
+
     </nav>
 </header>
 
@@ -83,11 +84,7 @@
     </div>
 
     <div>
-        <th:block>
-
-        </th:block>
-        <textarea th:if="${logcontent}" th:text="${logcontent}">
-        </textarea>
+        <th:block th:if="${logcontent}" th:text="${logcontent}"></th:block>
     </div>
 
 
