@@ -14,14 +14,14 @@ public class Track {
     //private final ArtistSimplified[] artists;
 
     private String album;
-    //private String[] artists;
+    private String artists;
     private Integer discNumber;
     private Integer durationMs;
     private Boolean explicit;
     private String href;
     private String id;
     private Boolean isPlayable;
-    private String name;
+    public String name;
     private Integer popularity;
     private String previewUrl;
     private Integer trackNumber;
@@ -37,7 +37,16 @@ public class Track {
         for(int i=0; i< spotifyTracks.length; i++){
             tracks[i] = modelMapper.map(spotifyTracks[i], Track.class);
             tracks[i].album = spotifyTracks[i].getAlbum().getName();
+
+            String[] artists = new String[spotifyTracks[i].getArtists().length];
+            for(int j=0; j<spotifyTracks[i].getArtists().length; j++)
+            {
+                artists[j] = spotifyTracks[i].getArtists()[j].getName();
+            }
+            tracks[i].artists = String.join(", ", artists);
         }
+
+
 
         return tracks;
     }

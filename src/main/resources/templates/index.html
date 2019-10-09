@@ -46,7 +46,7 @@
     <!-- Fixed navbar -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 
-        <a class="navbar-brand" href="#">Spotify searcher</a>
+        <a class="navbar-brand" href="/">Home</a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -65,30 +65,33 @@
 
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/getAll-saved-searches">Saved searches
+                    <span class="sr-only">(current)</span>
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                <a class="nav-link"  href="/log">User Log</a>
             </li>
         </ul>
     </nav>
 </header>
 
-<!-- Tresc glownej strony -->
+<!-- Page content -->
 <main role="main" class="flex-shrink-0">
     <div class="container">
-        <h1 class="mt-5">Sticky footer with fixed navbar</h1>
-        <p class="lead">Pin a footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code>padding-top: 60px;</code> on the <code>main &gt; .container</code>.</p>
-        <p>Back to <a href="/docs/4.3/examples/sticky-footer/">the default sticky footer</a> minus the navbar.</p>
+       <p class="lead">Spotify music searcher. Search <b><i>artists</i></b> or <b><i>track</i></b> and save Your searching as favourite.</p>
+    </div>
+
+    <div>
+        <th:block>
+
+        </th:block>
+        <textarea th:if="${logcontent}" th:text="${logcontent}">
+        </textarea>
     </div>
 
 
-
-
-    <!-- lista wyszukanych artystow i piosenek-->
+    <!-- list of artist and tracks-->
     <div class="list" th:if="${searchResult}" id="searchContainer">
         <button id="saveSearch" class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="saveSearch();">Save search</button>
 
@@ -98,10 +101,23 @@
         <ol th:if="${searchResult.searchTrackResult}">
             <li th:each="result: ${searchResult.searchTrackResult}" th:text="${result.name} + ' (' + ${result.album} + ')'"></li>
         </ol>
-
     </div>
 
-    <!-- tabelka -->
+    <!-- list of saved searches-->
+    <div class="list" th:if="${allSavedSearches}" id="savedSearchesContainer">
+        <button id="deleteSearch" class="btn btn-outline-success my-2 my-sm-0" type="submit">Delete search</button>
+        <ol th:if="${allSavedSearches}">
+            <li th:each="search: ${allSavedSearches}" th:id="'search_' + ${search.id}">
+                <button th:onclick="'deleteSearch(' + ${search.id} + ')'">delete</button>
+                <div th:text="${search.searchQuery}"></div>
+                <div th:text="${search.id}"></div>
+                <div th:each="track: ${search.searchTrackResult}" th:text="${track.name} + ': ' + ${track.artists}"></div>
+                <div th:each="artist: ${search.searchArtistResult}"th:if="${search.searchArtistResult}" th:text="${artist.name}"></div>
+            </li>
+        </ol>
+    </div>
+
+    <!-- table -->
     <div class="mytable">
     <table class="table">
         <thead class="thead-light">
@@ -138,7 +154,7 @@
 
 <footer class="footer mt-auto py-3">
     <div class="container">
-        <span class="text-muted">Place sticky footer content here.</span>
+        <span class="text-muted">Spotify music searcher. Made by Ż.M.</span>
     </div>
 </footer>
 

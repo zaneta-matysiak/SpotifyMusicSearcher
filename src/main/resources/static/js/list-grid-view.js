@@ -1,14 +1,37 @@
 function saveSearch() {
     $.ajax({
         type: "POST",
-        url: "/search-saved",
-        success: onSuccess,
+        url: "/save",
+        success: onSuccessSave,
         data: JSON.stringify(searchResult),
         contentType: "application/json"
     });
 }
 
-function onSuccess(result){
+function onSuccessSave(result){
     $("#saveSearch").remove();
     $("#searchContainer").prepend("<p class='my-2 my-sm-0'>Save succeeded! (id: " + result + ")</p>");
+}
+
+function deleteSearch(id){
+    $.ajax({
+        type: "POST",
+        url: "/delete",
+        success: onSuccessDelete,
+        data: JSON.stringify(id),
+        contentType: "application/json"
+    });
+}
+
+function onSuccessDelete(result){
+    $("#search_" + result).remove();
+
+    var message = "<p id='deletedInfo' class='my-2 my-sm-0'>Delete succeeded! (id: " + result + ")</p>";
+    if(!$("#deletedInfo")[0]) {
+        $("#savedSearchesContainer").prepend(message);
+    }
+    else
+    {
+        $("#deletedInfo")[0].innerHTML = message;
+    }
 }

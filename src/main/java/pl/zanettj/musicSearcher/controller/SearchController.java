@@ -1,6 +1,5 @@
 package pl.zanettj.musicSearcher.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +15,9 @@ import pl.zanettj.musicSearcher.repository.SearchRepositoryCustom;
 import pl.zanettj.musicSearcher.spotify.SpotifySearch;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 
 @Controller
 @RequestMapping("/")
-@Slf4j
 public class SearchController {
 
     static Logger LOGGER = LoggerFactory.getLogger(SearchController.class);
@@ -65,7 +62,7 @@ public class SearchController {
     }
 
     @ResponseBody
-    @PostMapping("/search-saved")
+    @PostMapping("/save")
     public Long saveFavouriteSearch(@RequestBody SearchResult searchResult) {
 
         var nextId = searchRepositoryCustom.getMaxEmptyId() +1;
