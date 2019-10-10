@@ -35,3 +35,13 @@ function onSuccessDelete(result){
         $("#deletedInfo")[0].innerHTML = message;
     }
 }
+
+function details(id){
+    $("#savedSearchesContainer").css("display", "none");
+    $("#savedSearchesDetails_" + id).css("display", "");
+}
+
+function back(id){
+    $("#savedSearchesDetails_" + id).css("display", "none");
+    $("#savedSearchesContainer").css("display", "");
+}

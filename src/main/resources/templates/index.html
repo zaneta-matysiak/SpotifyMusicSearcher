@@ -60,7 +60,7 @@
 <!-- Page content -->
 <main role="main" class="flex-shrink-0">
     <div class="container">
-       <p class="lead">Spotify music searcher. Search <b><i>artists</i></b> or <b><i>track</i></b> and save Your searching as favourite.</p>
+        <p class="lead">Spotify music searcher. Search <b><i>artists</i></b> or <b><i>track</i></b> and save Your searching as favourite.</p>
     </div>
 
     <div>
@@ -79,18 +79,42 @@
         </ol>
     </div>
 
-    <!-- list of saved searches-->
-    <div class="list" th:if="${allSavedSearches}" id="savedSearchesContainer">
-        <button id="deleteSearch" class="btn btn-outline-success my-2 my-sm-0" type="submit">Delete search</button>
-        <ol th:if="${allSavedSearches}">
-            <li th:each="search: ${allSavedSearches}" th:id="'search_' + ${search.id}">
-                <button th:onclick="'deleteSearch(' + ${search.id} + ')'">delete</button>
-                <div th:text="${search.searchQuery}"></div>
-                <div th:text="${search.id}"></div>
-                <div th:each="track: ${search.searchTrackResult}" th:text="${track.name} + ' (' + ${track.artists} + ')' " ></div>
-                <div th:each="artist: ${search.searchArtistResult}"th:if="${search.searchArtistResult}" th:text="${artist.name}"></div>
-            </li>
-        </ol>
+    <div class="mytable" th:if="${allSavedSearches}" id="savedSearchesContainer">
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Search Query</th>
+                <th scope="col">Search Type</th>
+                <th scope="col">Result Count</th>
+                <th scope="col">Command</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="search: ${allSavedSearches}" th:id="'search_' + ${search.id}">
+                <th scope="row" th:text="${search.id}"></th>
+                <td th:text="${search.searchQuery}"></td>
+                <td th:text="${search.searchType}">Otto</td>
+                <td th:if="${search.searchTrackResult}" th:text="${search.searchTrackResult.length}"></td>
+                <td th:if="${search.searchArtistResult}" th:text="${search.searchArtistResult.length}"></td>
+                <td>
+                    <button class="btn btn-outline-success my-2 my-sm-0" th:onClick="'details(' + ${search.id} + ');'">details</button>
+                    <button class="btn btn-outline-success my-2 my-sm-0" th:onclick="'deleteSearch(' + ${search.id} + ')'">delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${allSavedSearches}">
+        <div style="display: none" th:id="'savedSearchesDetails_' + ${search.id}" th:each="search: ${allSavedSearches}">
+            <button class="btn btn-outline-success my-2 my-sm-0" th:onClick="'back(' + ${search.id} + ')'">back</button>
+            <ol>
+                <li th:if="${search.searchTrackResult}" th:each="track: ${search.searchTrackResult}" th:text="${track.name} + ' (' + ${track.artists} + ')' "></li>
+                <li th:each="artist: ${search.searchArtistResult}" th:if="${search.searchArtistResult}" th:text="${artist.name}"></li>
+            </ol>
+        </div>
     </div>
 
 </main>
