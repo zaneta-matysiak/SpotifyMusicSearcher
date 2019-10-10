@@ -72,7 +72,7 @@
         <button id="saveSearch" class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="saveSearch();">Save search</button>
 
         <ol th:if="${searchResult.searchArtistResult}">
-            <li th:each="result: ${searchResult.searchArtistResult}" th:text="${result.name} + ' (' + ${result.genres} + ')' "></li>
+            <li th:each="result: ${searchResult.searchArtistResult}" th:text="${result.name}"></li>
         </ol>
         <ol th:if="${searchResult.searchTrackResult}">
             <li th:each="result: ${searchResult.searchTrackResult}" th:text="${result.name} + ' (' + ${result.artists} + ')'"></li>
@@ -93,40 +93,6 @@
         </ol>
     </div>
 
-    <!-- table -->
-    <div class="mytable">
-    <table class="table">
-        <thead class="thead-light">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Genres</th>
-            <th scope="col">Favourite</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-        </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-        </tr>
-        <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-        </tr>
-        </tbody>
-    </table>
-    </div>
 </main>
 
 <footer class="footer mt-auto py-3">
