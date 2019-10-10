@@ -80,6 +80,7 @@
     </div>
 
     <div class="mytable" th:if="${allSavedSearches}" id="savedSearchesContainer">
+        <button id="deleteSearch" class="btn btn-outline-success my-2 my-sm-0" onclick="deleteAllSearch()">Delete all searches</button>
         <table class="table">
             <thead class="thead-light">
             <tr>
@@ -92,7 +93,7 @@
             </thead>
 
             <tbody>
-            <tr th:each="search: ${allSavedSearches}" th:id="'search_' + ${search.id}">
+            <tr th:each="search: ${allSavedSearches}" th:id="'search_' + ${search.id}" class="resultRow">
                 <th scope="row" th:text="${search.id}"></th>
                 <td th:text="${search.searchQuery}"></td>
                 <td th:text="${search.searchType}">Otto</td>

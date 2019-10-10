@@ -36,6 +36,28 @@ function onSuccessDelete(result){
     }
 }
 
+function deleteAllSearch(){
+    $.ajax({
+        type: "POST",
+        url: "/deleteAll",
+        success: onSuccessAllDelete,
+        contentType: "application/json"
+    });
+}
+
+function onSuccessAllDelete(result){
+    $(".resultRow").remove();
+
+    var message = "<p id='deletedInfo' class='my-2 my-sm-0'>" + result + "</p>";
+    if(!$("#deletedInfo")[0]) {
+        $("#savedSearchesContainer").prepend(message);
+    }
+    else
+    {
+        $("#deletedInfo")[0].innerHTML = message;
+    }
+}
+
 function details(id){
     $("#savedSearchesContainer").css("display", "none");
     $("#savedSearchesDetails_" + id).css("display", "");
