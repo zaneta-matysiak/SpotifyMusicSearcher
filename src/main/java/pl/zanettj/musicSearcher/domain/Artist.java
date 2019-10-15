@@ -5,8 +5,7 @@ import org.modelmapper.ModelMapper;
 
 import java.util.Arrays;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class Artist {
 

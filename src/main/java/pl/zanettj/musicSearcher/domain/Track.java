@@ -3,9 +3,8 @@ package pl.zanettj.musicSearcher.domain;
 import lombok.*;
 import org.modelmapper.ModelMapper;
 
+@Data
 @NoArgsConstructor
-@Getter
-@Setter
 public class Track {
 
     private String album;
